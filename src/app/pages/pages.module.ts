@@ -7,6 +7,7 @@ import { HttpClientModule} from '@angular/common/http';
 import { NewMageComponent } from './new-mage/new-mage.component';
 import { MagesListComponent } from './mages-list/mages-list.component'
 import { AgGridModule } from 'ag-grid-angular';
+import { UpdateMageComponent } from './update-mage/update-mage/update-mage.component';
 
 
 /**
@@ -17,7 +18,8 @@ import { AgGridModule } from 'ag-grid-angular';
     LoginComponent,
     HomeComponent,
     NewMageComponent,
-    MagesListComponent
+    MagesListComponent,
+    UpdateMageComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +27,7 @@ import { AgGridModule } from 'ag-grid-angular';
     HttpClientModule,
     ReactiveFormsModule,
     AgGridModule
-  ],
+    ],
   exports: [
     HomeComponent
   ],

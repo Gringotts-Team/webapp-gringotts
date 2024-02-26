@@ -34,7 +34,7 @@ export class HouseService {
       'Content-type': 'application/json',
     });
     const requestOptions = { headers: new HttpHeaders(newHeaders) };
-    const url = `${this.apiURL}/house`;
+    const url = `${this.apiURL}/houses`;
     try {
       const response = await this.http.get(url, requestOptions).toPromise();
       return { data: response, ok: true, errors: [] };

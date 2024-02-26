@@ -1,6 +1,7 @@
 import { House } from "./house";
 
 export class MageListModel{
+        mag_id:number;
         mag_name:string;
         mag_age: number;
         mag_house?:House;
@@ -10,6 +11,7 @@ export class MageListModel{
 }
 
 export const MAGELISTEMPTY ={
+        mag_id:null,
         mag_name:"",
         mag_age:null,
         mag_house:null,

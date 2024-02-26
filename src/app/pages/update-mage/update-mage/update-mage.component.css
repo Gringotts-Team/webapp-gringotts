@@ -1,0 +1,24 @@
+html,
+body {
+    height: 40%;
+    margin: 0;
+}
+
+.mages-list {
+    background-color: #d9dcc1;
+    overflow-y: auto;
+    height: 74vh;
+}
+.bold-label {
+    font-weight: bold;
+}
+.aaln-finder{
+    margin-top: 100px;
+}
+.row {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+#rowMageAALNFinder {
+    margin: 0% !important;
+}

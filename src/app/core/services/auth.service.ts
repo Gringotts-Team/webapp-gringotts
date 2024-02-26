@@ -66,7 +66,7 @@ export class AuthService {
       const tokenParams = new HttpParams().set('token', token);
     try
     {      
-      await this.http.get<boolean>(`${this.apiURL}/tokenValidated`, { params: tokenParams })
+      await this.http.get<boolean>(`${this.apiURL}/user/tokenvalidation`, { params: tokenParams })
     }
     catch (error)
     {
@@ -81,7 +81,7 @@ export class AuthService {
    * @returns {Promise<Result<any>>} Promise containing the result of the login action.
    */
   async postLogin(user: User): Promise<Result<any>> {
-    const url = `${this.apiURL}/login`;
+    const url = `${this.apiURL}/user/login`;
     try
     {
       const response = await this.http.post(url, user).toPromise();

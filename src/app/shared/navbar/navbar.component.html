@@ -15,6 +15,7 @@
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <li><a class="dropdown-item" [routerLink]="['/mages/mages-list']" >List Mages</a></li>
             <li *ngIf="isOverseer"><a class="dropdown-item" [routerLink]="['/mages/new-mage']">New Mage</a></li>
+            <li *ngIf="isOverseer"><a class="dropdown-item" [routerLink]="['/mages/update-mage']">Update Mage</a></li>
           </ul>
         </li>       
       </ul>
@@ -27,5 +28,6 @@
     <li class="breadcrumb-item" *ngIf="currentRoute.includes('mages')">Mages</li>
     <li class="breadcrumb-item" *ngIf="currentRoute.includes('mages-list')">Mages List</li>
     <li class="breadcrumb-item" *ngIf="currentRoute.includes('new-mage')">New Mage</li>
+    <li class="breadcrumb-item" *ngIf="currentRoute.includes('update-mage')">Update Mage</li>
   </ol>
 </div>

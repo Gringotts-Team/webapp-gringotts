@@ -24,7 +24,9 @@ export class ValidatorService {
    * @returns {boolean} - True if the field is invalid and touched, otherwise false.
    */
   public isValidField(form: FormGroup, field: string): boolean {
-    return form.controls[field].errors && form.controls[field].touched;
+    const control = form.controls[field];
+
+    return control && control.errors && control.touched;
   }
 
   /**

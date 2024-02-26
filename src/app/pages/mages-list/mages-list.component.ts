@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HouseService } from 'src/app/core/services/house.service';
 import { MageService } from 'src/app/core/services/mage.service';
@@ -7,6 +7,8 @@ import { House } from 'src/app/core/models/house';
 import { Mage } from 'src/app/core/models/mage';
 import { mageListRequest } from '../../core/models/mageListRequest';
 import { ColDef } from 'ag-grid-community';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 /**
  * Component for displaying a list of mages.
@@ -39,12 +41,15 @@ export class MagesListComponent implements OnInit {
 
   /** Column definitions for ag-grid. */
   colDefs: ColDef[] = [
-    { headerName: 'AALN', field: 'mag_aaln', cellStyle: { 'text-align': "left" }, flex: 2 , resizable: false, suppressMovable: true },
-    { headerName: 'Name', field: 'mag_name', cellStyle: { 'text-align': "left" }, flex: 3 , resizable: false, suppressMovable: true },
-    { headerName: 'House', field: 'mag_house.hou_name', cellStyle: { 'text-align': "left" }, flex: 2 , resizable: false, suppressMovable: true },
+    { headerName: 'AALN', field: 'mag_aaln', cellStyle: { 'text-align': "left" }, flex: 1.5 , resizable: false, suppressMovable: true },
+
+    { headerName: 'Name', field: 'mag_name', cellStyle: { 'text-align': "left" }, flex: 2 , resizable: false, suppressMovable: true },
+
+    { headerName: 'House', field: 'mag_house.hou_name', cellStyle: { 'text-align': "left" }, flex: 1 , resizable: false, suppressMovable: true },
+
     { headerName: 'Age', field: 'mag_age', type: 'rightAligned', flex: 1 , resizable: false, suppressMovable: true },
-    { 
-      headerName: 'Inscription Date', 
+
+    { headerName: 'Inscription Date', 
       field: 'mag_inscription',
       type: 'rightAligned',
       cellRenderer: 'agGroupCellRenderer',
@@ -54,26 +59,31 @@ export class MagesListComponent implements OnInit {
           return date.toLocaleDateString('es-AR', {day: '2-digit', month: '2-digit', year: 'numeric'});
         }
       },
-      flex: 2 ,
+      flex: 1.5 ,
       resizable: false,
-      suppressMovable: true
+      suppressMovable: true },
+
+    { headerName: 'Edit Mage', 
+      hide: !this.authService.overseerValidation(),
+      field: 'mag_id', 
+      flex: 1, 
+      resizable: false, 
+      suppressMovable: true, 
+      sortable: false,
+      cellRenderer: (params: any) => {
+        const button = document.createElement('button');
+        button.innerHTML = '<i class="bi bi-pencil"></i>';
+        button.classList.add('btn', 'btn-dark', 'btn-sm');
+        button.addEventListener('click', () => {
+          const id = params.value;
+          this.ngZone.run( () => {
+            this.router.navigateByUrl(`mages/update-mage/${id}`);
+          });
+        });
+        return button;        
+      }
     }
   ];
-
-
-  /**
-   * Form for mage list.
-   */
-  
-  public mageListFormGroup: FormGroup = this.formBuilder.group({
-    mageName: [null],
-    AALN: [null, [Validators.pattern(this.validatorService.aalnPatternValidation)]],
-    houseId: [null],
-    minAge: [null],
-    maxAge: [null],
-    minRegDate: [null],
-    maxRegDate: [null]
-  });
 
   /**
    * Constructor for MagesListComponent.
@@ -86,9 +96,26 @@ export class MagesListComponent implements OnInit {
     private houseService: HouseService,
     private mageService: MageService,
     private formBuilder: FormBuilder,
-    private validatorService: ValidatorService
+    private validatorService: ValidatorService,
+    private authService: AuthService,
+    private router: Router,
+    private ngZone: NgZone
   ) {
   }
+
+  /**
+   * Form for mage list.
+   */
+  public mageListFormGroup: FormGroup = this.formBuilder.group({
+    mageName: [null],
+    AALN: [null, [Validators.pattern(this.validatorService.aalnPatternValidation)]],
+    houseId: [null],
+    minAge: [null],
+    maxAge: [null],
+    minRegDate: [null],
+    maxRegDate: [null]
+  });
+
 
   /**
    * Method executed when the component is initialized.
@@ -124,13 +151,14 @@ export class MagesListComponent implements OnInit {
   async listMages(): Promise<void> {
     try {
       this.magesList=[];
-      this.mageListRequest = this.mageListFormGroup.value;
+      this.mageListRequest = this.mageListFormGroup.value;      
 
-      const resultGetMage = await this.mageService.postMagesList(this.mageListRequest);
+      const resultGetMage = await this.mageService.getMagesList(this.mageListRequest);
 
       if (resultGetMage.ok) {
         this.magesList = resultGetMage.data;
         this.rowData = this.magesList;
+        
       }else {
         const errorMessage = resultGetMage.data.error;
         this.errorMsg = errorMessage;

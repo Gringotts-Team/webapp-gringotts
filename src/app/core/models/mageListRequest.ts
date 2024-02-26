@@ -3,7 +3,7 @@ export class mageListRequest{
     AALN:string;
     minAge:string;
     maxAge:string;
-    hou_id:number;
+    houseId:number;
     minRegDate:string;
     maxRegDate:string;
 }
