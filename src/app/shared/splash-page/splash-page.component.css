@@ -1,0 +1,33 @@
+@font-face {
+    font-family: 'HarryP';
+    src: url('../../../assets/fonts/HARRYP__.TTF') format('truetype'); 
+  }
+
+
+*{
+    background-color: #000000;
+}
+
+  img {
+    max-height: 400px; 
+    width: auto; 
+  }
+
+  h1{
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    color: #638793;
+    font-size: 8em;
+    font-family: 'HarryP', sans-serif;
+  }
+
+  h6{
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    color: #d9dcc1;
+    font-size: 2em;
+    font-family: 'HarryP', sans-serif;
+  }
+

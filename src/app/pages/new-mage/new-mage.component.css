@@ -1,0 +1,45 @@
+.NewMage {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #d9dcc1;
+}
+@media (min-width: 577px) {
+    .NewMage {
+        height: 80vh;
+    }
+    .container {
+      max-width: 40%;
+    }
+}
+@media (max-width: 576px) {
+    .NewMage {
+        height: 80vh;
+    }
+    .container {
+      max-width: 85%;
+    }
+}
+
+.container {
+    border: 2px solid #333;
+    border-radius: 10px;
+    background-color: #35454c;
+    padding: 20px;
+    /* max-width: 85%; */
+}
+
+.formButtons button {
+    margin-right: 10px;
+
+}
+
+.bold-label {
+    font-weight: bold;
+    color: #d9dcc1
+}
+
+.error-message {
+    color: red !important;
+}

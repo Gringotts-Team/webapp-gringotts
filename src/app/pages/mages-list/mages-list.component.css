@@ -1,0 +1,33 @@
+.mages-list {
+    margin: 0;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #d9dcc1;
+}
+
+.formButtons button {
+    margin-bottom: 10px;
+    background-color: #182126;
+    border: none !important;
+    color: #d9dcc1;
+
+}
+
+.bold-label {
+    font-weight: bold;
+}
+
+.page-link {
+    color: #182126;
+    font-weight: bold;
+}
+
+.error-message {
+    color: red !important;
+}
+
+ag-grid-angular {
+  margin-bottom: 20px;
+}

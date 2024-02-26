@@ -1,0 +1,16 @@
+img {
+    width: 92px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+footer{
+    width: 100%;
+    background-color: #182126;
+    color: #d9dcc1;
+    font-family: "Roboto", sans-serif;
+    padding-top: 23px;
+    padding-bottom: 21px;
+    margin: 0;
+    min-height: 20%;
+}

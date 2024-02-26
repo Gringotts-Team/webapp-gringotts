@@ -1,0 +1,80 @@
+<div class="mages-list" style="background-color: #d9dcc1; overflow-y: auto;">
+    <div class="container text-center order-lg-1 d-flex align-items-center justify-content-center">
+        <form [formGroup]="mageListFormGroup" (ngSubmit)="searchMages()">
+            <h2 class="bold-label">Mages List</h2>
+            <div class="row ">
+                <div class="col-md-6 col-sm-12 mb-3">
+                    <label for="inputFullName" class="form-label text-lg-start bold-label">Mage Name</label>
+                    <input class="form-control" formControlName="mageName" type="text" name="inputFullName" (input)="handleFieldInput('mageName', $event.target.value)"/>
+                </div>
+                <div class="col-md-3 col-sm-12 mb-3">
+                    <label for="inputAALN" class="form-label text-lg-start bold-label">AALN</label>
+                    <input class="form-control" formControlName="AALN" type="text" name="inputAALN" (input)="handleFieldInput('AALN', $event.target.value)" />
+                    <span *ngIf="isValidField('AALN')" class="form-text text-danger">
+                        The code format is incorrect
+                    </span>
+                </div>
+                <div class="col-md-3 col-sm-12 mb-3">
+                    <label for="inputHouse" class="form-label bold-label">House</label>
+                    <select class="form-control" formControlName="houseId" aria-label="Default select example" name="inputHouse">
+                        <option [ngValue]="null" >
+                            Select house
+                        </option>
+                        <option *ngFor="let house of houseList" [value]="house.hou_id">
+                            {{house.hou_name}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 col-sm-12 mb-3">
+                  <label for="inputAgeFromTo" class="form-label text-lg-start bold-label">Age</label>
+                  <div class="row">
+                    <div class="col-md-6 col-sm-12 mb-3">
+                      <input formControlName="minAge" type="text" class="form-control" name="inputDateFrom" (input)="handleFieldInput('minAge', $event.target.value)">
+                    </div>
+                    <div class="col-md-6 col-sm-12 mb-3">
+                      <input formControlName="maxAge" type="text" class="form-control" name="inputDateTo" (input)="handleFieldInput('maxAge', $event.target.value)">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-9 col-sm-12 mb-3">
+                    <label for="inputDateFromTo" class="form-label text-lg-start bold-label">Inscription Date</label>
+                    <div class="row">
+                      <div class="col-md-6 col-sm-12 mb-3">
+                        <input formControlName="minRegDate" type="date" class="form-control" name="inputDateFrom" (input)="handleFieldInput('minRegDate', $event.target.value)">
+                      </div>
+                      <div class="col-md-6 col-sm-12 mb-3">
+                        <input formControlName="maxRegDate" type="date" class="form-control" name="inputDateTo" (input)="handleFieldInput('maxRegDate', $event.target.value)">
+                      </div>
+                    </div>
+                </div>                     
+            </div>
+
+            <div class="row ">
+                <div class="formButtons">
+                    <button type="submit" class="btn btn-primary mx-2">Search</button>
+                </div>
+            </div>
+
+            
+            <div class="row">
+              <div class="col-12">
+                <ag-grid-angular
+                    class="ag-theme-quartz"
+                    style="width:100%;"
+                    [rowData]="rowData"
+                    [columnDefs]="colDefs"
+                    [pagination]="true"
+                    [paginationPageSize]="25"
+                    [paginationPageSizeSelector]="false"
+                    [domLayout]="'autoHeight'"
+                    [enableCellTextSelection]="true"
+                >
+                </ag-grid-angular>
+              </div>
+            </div>
+          </form>
+    </div>
+</div>

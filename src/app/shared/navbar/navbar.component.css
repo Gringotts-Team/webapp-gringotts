@@ -1,0 +1,26 @@
+nav {
+  padding: 0;
+  border-top: 1px solid #35454c;
+}
+
+nav * {
+    font-family: "Roboto", sans-serif;
+    font-weight: bold;
+    background-color: #182126;
+    color: #d9dcc1;
+}
+
+.breadcrumb {
+  background-color: #d9dcc1;
+  --bs-breadcrumb-divider: '>';
+}
+
+.breadcrumb a {
+  color: #35454c;
+  text-decoration: none;
+}
+
+.navbar-toggler {
+  margin-top: 1%;
+  margin-bottom: 1%;
+}

@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\pages",
+    "\\src\\app\\pages\\mages-list"
+  ],
+  "SelectedNode": "\\src\\app\\pages\\mages-list\\mages-list.component.spec.ts",
+  "PreviewInSolutionExplorer": false
+}
