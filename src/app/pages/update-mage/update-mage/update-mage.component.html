@@ -1,87 +1,87 @@
 <div class="mages-list" style="background-color: #d9dcc1; overflow-y: auto;">
-    <div class="container text-center d-flex align-items-center justify-content-center">
-        <form [formGroup]="mageAllnUpdate" (ngSubmit)="searchMage()">
-            <div class="aaln-finder">
-                <div class="row">
-                    <div class="col-md-12 col-sm-12 mb-3">
-                        <h2 class="bold-label">Update Mage</h2>
-                    </div>
-                    <div class="row" id="rowMageAALNFinder">
-                        <div class="col-md-8 col-sm-12 mb-3 mx-auto text-center">
-                            <label for="inputAALN" class="form-label text-lg-start bold-label">Mage AALN</label>
-                            <input class="form-control" formControlName="AALN" type="text" name="inputAALN" />
-                            <span *ngIf="isValidField('AALN')" class="form-text text-danger">
-                                {{isValidAALN('AALN')}}
-                            </span>
-                        </div>
-                    </div>
+  <div class="container text-center d-flex align-items-center justify-content-center">
+      <form [formGroup]="mageAllnUpdate" (ngSubmit)="searchMage()">
+          <div class="aaln-finder">
+              <div class="row">
+                  <div class="col-md-12 col-sm-12 mb-3">
+                      <h2 class="bold-label">Update Mage</h2>
+                  </div>
+                  <div class="row" id="rowMageAALNFinder">
+                      <div class="col-md-8 col-sm-12 mb-3 mx-auto text-center">
+                          <label for="inputAALN" class="form-label text-lg-start bold-label">Mage AALN</label>
+                          <input class="form-control" formControlName="AALN" type="text" name="inputAALN" />
+                          <span *ngIf="isValidField(mageAllnUpdate,'AALN')" class="form-text text-danger">
+                              {{isValidAALN(mageAllnUpdate,'AALN')}}
+                          </span>
+                      </div>
+                  </div>
 
-                    <div class="formButtons">
-                        <button type="submit" class="btn btn-primary">Find mage</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
+                  <div class="formButtons">
+                      <button type="submit" class="btn btn-primary">Find mage</button>
+                  </div>
+              </div>
+          </div>
+      </form>
+  </div>
 </div>
 
 
 <div class="modal fade" id="UpdateModalForm" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title bold-label" id="editModalLabel">Edit Mage</h2>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form [formGroup]="mageUpdateForm" (ngSubmit)="updateMage()">
-                    <div class="row ">
-                        <div class="col-md-6 col-sm-12 mb-3">
-                            <label for="inputFullName" class="form-label text-lg-start bold-label">Full Name</label>
-                            <input class="form-control" formControlName="mag_name" type="text" name="inputFullName" />
-                            <span *ngIf="isValidField('mag_name')" class="form-text text-danger">
-                                This field is required
-                            </span>
-                        </div>
-                        <div class="col-md-6 col-sm-12">
-                            <label for="inputHou_id" class="form-label bold-label">House</label>
-                            <select class="form-control" formControlName="mag_hou_name"
-                                aria-label="Default select example" name="inputHou_id">
-                                <option value="null" disabled selected hidden>
-                                    Select house
-                                </option>
-                                <option *ngFor="let house of houseList" [value]="house.hou_name">
-                                    {{house.hou_name}}
-                                </option>
-                            </select>
-                            <!-- <span *ngIf="isValidField('mag_hou_name')" class="form-text text-danger">
-                                This field is required
-                            </span> -->
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 col-sm-12">
-                            <label for="inputUser" class="form-label text-lg-start bold-label">Born date</label>
-                            <input formControlName="mag_birthdate" type="date" value="{{birthDateMage | date:'yyyy-MM-dd'}}" class="form-control" name="inputUser">
-                            <!-- <span *ngIf="isValidField('mag_birthdate')" class="form-text text-danger">
-                                {{isValidBirthdate('mag_birthdate')}}
-                            </span> -->
-
-                        </div>
-                        <div class="col-md-6 col-sm-12">
-                            <label for="inputAALN" class="form-label bold-label">AALN</label>
-                            <input type="text" formControlName="mag_aaln" class="form-control" name="inputAALN">
-                            <!-- <span *ngIf="isValidField('mag_aaln')" class="form-text text-danger">
-                                {{isValidAALN('mag_aaln')}}
-                            </span> -->
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary">Guardar</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h2 class="modal-title bold-label" id="editModalLabel">Edit Mage</h2>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form [formGroup]="mageUpdateForm" (ngSubmit)="updateMage()">
+                  <div class="row ">
+                      <div class="col-md-6 col-sm-12 mb-3">
+                          <label for="inputFullName" class="form-label text-lg-start bold-label">Full Name</label>
+                          <input class="form-control" formControlName="mag_name" type="text" name="inputFullName" />
+                          <span *ngIf="isValidField(mageUpdateForm,'mag_name')" class="form-text text-danger">
+                              This field is required
+                          </span>
+                      </div>
+                      <div class="col-md-6 col-sm-12">
+                          <label for="inputHou_id" class="form-label bold-label">House</label>
+                          <select class="form-control" formControlName="mag_hou_name"
+                              aria-label="Default select example" name="inputHou_id">
+                              <option value="null" disabled selected hidden>
+                                  Select house
+                              </option>
+                              <option *ngFor="let house of houseList" [value]="house.hou_name">
+                                  {{house.hou_name}}
+                              </option>
+                          </select>
+                          <span *ngIf="isValidField(mageUpdateForm,'mag_hou_name')" class="form-text text-danger">
+                              This field is required
+                          </span>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-md-6 col-sm-12">
+                          <label for="inputUser" class="form-label text-lg-start bold-label">Born date</label>
+                          <input formControlName="mag_birthdate" type="date" value="{{birthDateMage | date:'yyyy-MM-dd'}}" class="form-control" name="inputUser">
+                          <span *ngIf="isValidField(mageUpdateForm,'mag_birthdate')" class="form-text text-danger">
+                              {{isValidBirthdate('mag_birthdate')}}
+                          </span>
+                      </div>
+                      <div class="col-md-6 col-sm-12">
+                          <label for="inputAALN" class="form-label bold-label">AALN</label>
+                          <input type="text" formControlName="mag_aaln" class="form-control" name="inputAALN">
+                          <span *ngIf="isValidField(mageUpdateForm,'mag_aaln')" class="form-text text-danger">
+                              {{isValidAALN(mageUpdateForm,'mag_aaln')}}
+                          </span>
+                      <br>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                          <button type="submit" class="btn btn-primary">Guardar</button>
+                      </div>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
 </div>

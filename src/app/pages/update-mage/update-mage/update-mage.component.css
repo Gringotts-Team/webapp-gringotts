@@ -22,3 +22,7 @@ body {
 #rowMageAALNFinder {
     margin: 0% !important;
 }
+
+#UpdateModalForm .modal-content {
+  background-color:  #d9dcc1;
+}

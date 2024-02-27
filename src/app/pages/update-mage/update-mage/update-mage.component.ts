@@ -219,6 +219,7 @@ export class UpdateMageComponent implements OnInit {
 
   async updateMage(): Promise<void> {
     try {
+      this.mageUpdateForm.markAllAsTouched();
       if (this.mageUpdateForm.valid) {
         let mageUpdated: Mage = this.mageUpdateForm.value;
         let houseSelected = this.mageUpdateForm.get('mag_hou_name').value; // Get the value of the FormControl
@@ -261,8 +262,8 @@ export class UpdateMageComponent implements OnInit {
    * @param {string} field - The name of the form field.
    * @returns {boolean} - True if the field is valid, false otherwise.
    */
-  isValidField(field: string): boolean {
-    return this.validatorService.isValidField(this.mageAllnUpdate, field);
+  isValidField(form: FormGroup,field: string): boolean {
+    return this.validatorService.isValidField(form, field);
   }
 
   /**
@@ -270,9 +271,18 @@ export class UpdateMageComponent implements OnInit {
    * @param {string} aalnControl - The name of the form field.
    * @returns {string} - The error message for the AALN form field.
    */
-  isValidAALN(aalnControl: string): string {
-    return this.validatorService.getFieldError(this.mageAllnUpdate, aalnControl);
+  isValidAALN(form: FormGroup, aalnControl: string): string {
+    return this.validatorService.getFieldError(form, aalnControl);
   }
+
+  /**
+   * Gets the error message for the birthdate form field.
+   * @param {string} birthControl - The name of the form field.
+   * @returns {string} - The error message for the birthdate form field.
+   */
+    isValidBirthdate(birthControl: string): string {
+      return this.validatorService.getFieldError(this.mageUpdateForm, birthControl);
+    }
 
 
 
@@ -280,6 +290,3 @@ export class UpdateMageComponent implements OnInit {
     this.location.back();
   }
 }
-
-
-
