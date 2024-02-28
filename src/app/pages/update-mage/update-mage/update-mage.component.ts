@@ -86,7 +86,6 @@ export class UpdateMageComponent implements OnInit {
   }
   chargeMageSelectedInList() {
     this.routeSubscription = this.route.params.subscribe(params => {
-      console.log(params['id'])
 
       if (params['id']) {
         this.mageIdFromList = params['id'];
@@ -166,7 +165,6 @@ export class UpdateMageComponent implements OnInit {
   }
   async findMageById(idMage: number): Promise<void> {
     try {
-      console.log(this.mageIdFromList)
       if (this.mageAllnUpdate.valid || this.mageIdFromList != undefined ) {
 
         this.mageToUpdate = MAGEEMPTY
@@ -219,14 +217,15 @@ export class UpdateMageComponent implements OnInit {
 
   async updateMage(): Promise<void> {
     try {
+      this.mageUpdateForm.updateValueAndValidity();
       this.mageUpdateForm.markAllAsTouched();
+
       if (this.mageUpdateForm.valid) {
         let mageUpdated: Mage = this.mageUpdateForm.value;
         let houseSelected = this.mageUpdateForm.get('mag_hou_name').value; // Get the value of the FormControl
 
         if (typeof houseSelected === 'string') {
           let mageIdToUpdate: string | number = this.getHouseNameByIdOrIdByName(houseSelected);
-
           if (typeof mageIdToUpdate === 'number') {
             mageUpdated.mag_hou_id = mageIdToUpdate;
           }
@@ -247,8 +246,9 @@ export class UpdateMageComponent implements OnInit {
             });
 
           } else {
-            const errorMessage = resultUpdateMage.data.error;
+            const errorMessage = resultUpdateMage.errors[0].error;
             this.errorMsg = errorMessage;
+            console.log("error: ", this.errorMsg)
           }
         
         }
