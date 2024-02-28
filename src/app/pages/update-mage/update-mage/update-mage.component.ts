@@ -53,6 +53,11 @@ export class UpdateMageComponent implements OnInit {
 
   private routeSubscription : Subscription;
 
+  /**
+   * Indicates whether to show the error.
+   * @type {boolean}
+   */
+  showError: boolean = false;
 
   /**
    * Constructor for MagesListComponent.
@@ -146,14 +151,16 @@ export class UpdateMageComponent implements OnInit {
 
         this.mageListRequest = this.mageAllnUpdate.value;
         const resultGetMage = await this.mageService.getMagesList(this.mageListRequest);
-        console.log(resultGetMage.data)
         if (resultGetMage.ok) {
           this.mageByAaln = resultGetMage.data[0];
           if (resultGetMage.data.length == 0) {
-            this.findMageById(900);
+            const errorMessage = 'There is no mage with this AALN';
+            this.errorMsg = errorMessage;
+            this.showError = true;
           }
           else if (this.mageByAaln.mag_id != null && resultGetMage.data.length != 0) {
             this.findMageById(this.mageByAaln.mag_id);
+            this.showError = false;
           }
         } else {
           const errorMessage = resultGetMage.data.error;
@@ -175,7 +182,6 @@ export class UpdateMageComponent implements OnInit {
         let mageIdToUpdate: number = idMage;
         const resultGetMage = await this.mageService.getMageById(mageIdToUpdate);
         if (resultGetMage.ok) {
-          console.log(resultGetMage)
           this.mageToUpdate = resultGetMage.data;
 
           this.mageUpdateForm.patchValue({

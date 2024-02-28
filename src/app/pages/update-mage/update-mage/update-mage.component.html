@@ -13,6 +13,9 @@
                           <span *ngIf="isValidField(mageAllnUpdate,'AALN')" class="form-text text-danger">
                               {{isValidAALN(mageAllnUpdate,'AALN')}}
                           </span>
+                          <span *ngIf="showError" class="form-text text-danger">
+                            {{errorMsg}}
+                          </span>
                       </div>
                   </div>
 
