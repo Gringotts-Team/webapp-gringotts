@@ -146,12 +146,15 @@ export class UpdateMageComponent implements OnInit {
 
         this.mageListRequest = this.mageAllnUpdate.value;
         const resultGetMage = await this.mageService.getMagesList(this.mageListRequest);
+        console.log(resultGetMage.data)
         if (resultGetMage.ok) {
           this.mageByAaln = resultGetMage.data[0];
-          if (this.mageByAaln.mag_id != null) {
+          if (resultGetMage.data.length == 0) {
+            this.findMageById(900);
+          }
+          else if (this.mageByAaln.mag_id != null && resultGetMage.data.length != 0) {
             this.findMageById(this.mageByAaln.mag_id);
           }
-
         } else {
           const errorMessage = resultGetMage.data.error;
           this.errorMsg = errorMessage;
@@ -172,6 +175,7 @@ export class UpdateMageComponent implements OnInit {
         let mageIdToUpdate: number = idMage;
         const resultGetMage = await this.mageService.getMageById(mageIdToUpdate);
         if (resultGetMage.ok) {
+          console.log(resultGetMage)
           this.mageToUpdate = resultGetMage.data;
 
           this.mageUpdateForm.patchValue({
