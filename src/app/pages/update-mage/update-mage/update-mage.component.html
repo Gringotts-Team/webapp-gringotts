@@ -65,7 +65,7 @@
                   <div class="row">
                       <div class="col-md-6 col-sm-12">
                           <label for="inputUser" class="form-label text-lg-start bold-label">Born date</label>
-                          <input formControlName="mag_birthdate" type="date" value="{{birthDateMage | date:'yyyy-MM-dd'}}" class="form-control" name="inputUser">
+                          <input formControlName="mag_birthdate" type="date" [value]="birthDateMage | date:'yyyy-MM-dd'" class="form-control" name="inputUser">
                           <span *ngIf="isValidField(mageUpdateForm,'mag_birthdate')" class="form-text text-danger">
                               {{isValidBirthdate('mag_birthdate')}}
                           </span>

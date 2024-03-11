@@ -229,38 +229,49 @@ export class UpdateMageComponent implements OnInit {
     try {
       this.mageUpdateForm.updateValueAndValidity();
       this.mageUpdateForm.markAllAsTouched();
-
+  
       if (this.mageUpdateForm.valid) {
         let mageUpdated: Mage = this.mageUpdateForm.value;
-        let houseSelected = this.mageUpdateForm.get('mag_hou_name').value; // Get the value of the FormControl
-
+        let houseSelected = this.mageUpdateForm.get('mag_hou_name').value;
+  
         if (typeof houseSelected === 'string') {
           let mageIdToUpdate: string | number = this.getHouseNameByIdOrIdByName(houseSelected);
           if (typeof mageIdToUpdate === 'number') {
             mageUpdated.mag_hou_id = mageIdToUpdate;
           }
-
-          const resultUpdateMage = await this.mageService.putMage(mageUpdated, this.mageToUpdate.mag_id);
-          if (resultUpdateMage.ok) {
-            this.mageToUpdate = resultUpdateMage.data;
-
-            Swal.fire({
-              title: "Update successful!",
-              text: "The mage " + this.mageToUpdate.mag_name + " is updated!",
-              icon: "success"
-            }).then((result) => {
-              if (result.isConfirmed) {
-                this.myModal.hide();
-                this.location.back();
-              }
-            });
-
-          } else {
-            const errorMessage = resultUpdateMage.errors[0].error;
-            this.errorMsg = errorMessage;
-            console.log("error: ", this.errorMsg)
-          }
-        
+        }
+  
+        const localBirthdate = new Date(mageUpdated.mag_birthdate);
+        const utcBirthdate = new Date(
+          localBirthdate.getUTCFullYear(),
+          localBirthdate.getUTCMonth(),
+          localBirthdate.getUTCDate(),
+          localBirthdate.getUTCHours(),
+          localBirthdate.getUTCMinutes(),
+          localBirthdate.getUTCSeconds(),
+          localBirthdate.getUTCMilliseconds()
+        );
+        mageUpdated.mag_birthdate = utcBirthdate.toISOString();
+  
+        const resultUpdateMage = await this.mageService.putMage(mageUpdated, this.mageToUpdate.mag_id);
+        if (resultUpdateMage.ok) {
+          this.mageToUpdate = resultUpdateMage.data;
+  
+          Swal.fire({
+            title: "Update successful!",
+            text: "The mage " + this.mageToUpdate.mag_name + " is updated!",
+            icon: "success"
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.myModal.hide();
+              this.location.back();
+            }
+          });
+  
+        } else {
+          const errorMessage = resultUpdateMage.errors[0].error;
+          this.errorMsg = errorMessage;
+          console.log("error: ", this.errorMsg);
         }
       }
     } catch (error) {
