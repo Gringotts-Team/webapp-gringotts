@@ -131,8 +131,6 @@ export class UpdateMageComponent implements OnInit {
    * Represents the form group for mage creation.
    * @type {FormGroup}
    */
-
-  
   public mageUpdateForm: FormGroup = this.formBuilder.group({
     mag_name: [null, [Validators.required]],
     mag_hou_name: [null, [Validators.required]],
@@ -142,6 +140,10 @@ export class UpdateMageComponent implements OnInit {
     validators: [this.validatorService.aalnAndHousePatterValidation('mag_hou_name', 'mag_aaln')]
   });
 
+  /**
+   * Searches for a mage based on AALN.
+   * If found, updates the UI with mage data.
+   */
   async searchMage(): Promise<void> {
     this.mageAllnUpdate.markAllAsTouched();
 
@@ -173,6 +175,11 @@ export class UpdateMageComponent implements OnInit {
       }
     }
   }
+
+  /**
+   * Finds a mage by ID and updates the UI with mage data.
+   * @param {number} idMage - The ID of the mage to find.
+   */
   async findMageById(idMage: number): Promise<void> {
     try {
       if (this.mageAllnUpdate.valid || this.mageIdFromList != undefined ) {
@@ -205,7 +212,11 @@ export class UpdateMageComponent implements OnInit {
     }
   }
 
-
+  /**
+   * Retrieves the house name by ID or ID by name.
+   * @param {number | string} selectedHouIdOrName - The ID or name of the house.
+   * @returns {string | number} - The name or ID of the house.
+   */
   getHouseNameByIdOrIdByName(selectedHouIdOrName: number | string): string | number {
     if (typeof selectedHouIdOrName === 'number') {
       for (let index = 0; index < this.houseList.length; index++) {
@@ -224,7 +235,10 @@ export class UpdateMageComponent implements OnInit {
     }
   }
 
-
+  /**
+   * Updates the mage data based on the form input.
+   * If successful, displays a success message and navigates back.
+   */
   async updateMage(): Promise<void> {
     try {
       this.mageUpdateForm.updateValueAndValidity();
@@ -278,6 +292,7 @@ export class UpdateMageComponent implements OnInit {
       console.error("Error:", error);
     }
   }
+  
   /**
    * Checks if a form field is valid.
    * @param {string} field - The name of the form field.
