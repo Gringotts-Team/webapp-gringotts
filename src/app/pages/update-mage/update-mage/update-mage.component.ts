@@ -26,6 +26,9 @@ export class UpdateMageComponent implements OnInit {
   /** Error message to display if there's an error. */
   errorMsg: string = null;
 
+  /** Error message to display in console if there's an error. */
+  consoleError: string = null;
+
   /** Object representing the request for mage list. */
   mageListRequest: mageListRequest;
 
@@ -51,7 +54,7 @@ export class UpdateMageComponent implements OnInit {
 
   private mageIdFromList: number;
 
-  private routeSubscription : Subscription;
+  private routeSubscription: Subscription;
 
   /**
    * Indicates whether to show the error.
@@ -86,7 +89,7 @@ export class UpdateMageComponent implements OnInit {
     const element = document.getElementById('UpdateModalForm') as HTMLElement;
     this.myModal = new Modal(element);
 
-      this.chargeMageSelectedInList();
+    this.chargeMageSelectedInList();
 
   }
   chargeMageSelectedInList() {
@@ -98,7 +101,7 @@ export class UpdateMageComponent implements OnInit {
         this.ngZone.run(() => {
           this.myModal.show();
         });
-      } 
+      }
     });
   }
 
@@ -112,8 +115,7 @@ export class UpdateMageComponent implements OnInit {
       if (resultGetHouse.ok) {
         this.houseList = resultGetHouse.data;
       } else {
-        const errorMessage = resultGetHouse.data.error;
-        this.errorMsg = errorMessage;
+        this.errorMsg = resultGetHouse.data.error;
       }
     } catch (error) {
       console.error("Error:", error);
@@ -145,19 +147,19 @@ export class UpdateMageComponent implements OnInit {
    * If found, updates the UI with mage data.
    */
   async searchMage(): Promise<void> {
-    this.mageAllnUpdate.markAllAsTouched();
+    try {
+      this.mageAllnUpdate.markAllAsTouched();
 
-    if (this.mageAllnUpdate.valid) {
-      try {
+      if (this.mageAllnUpdate.valid) {
         this.mageByAaln = MAGEEMPTY
 
         this.mageListRequest = this.mageAllnUpdate.value;
-        const resultGetMage = await this.mageService.getMagesList(this.mageListRequest);
+
+        let resultGetMage = await this.mageService.getMagesList(this.mageListRequest);
         if (resultGetMage.ok) {
           this.mageByAaln = resultGetMage.data[0];
           if (resultGetMage.data.length == 0) {
-            const errorMessage = 'There is no mage with this AALN';
-            this.errorMsg = errorMessage;
+            this.errorMsg = 'There is no mage with this AALN';
             this.showError = true;
           }
           else if (this.mageByAaln.mag_id != null && resultGetMage.data.length != 0) {
@@ -165,14 +167,14 @@ export class UpdateMageComponent implements OnInit {
             this.showError = false;
           }
         } else {
-          const errorMessage = resultGetMage.data.error;
-          this.errorMsg = errorMessage;
+          this.errorMsg = resultGetMage.data.error;
         }
 
 
-      } catch (error) {
-        console.error("Error:", error);
       }
+
+    } catch (error) {
+      console.error("Error:", error);
     }
   }
 
@@ -182,12 +184,12 @@ export class UpdateMageComponent implements OnInit {
    */
   async findMageById(idMage: number): Promise<void> {
     try {
-      if (this.mageAllnUpdate.valid || this.mageIdFromList != undefined ) {
+      if (this.mageAllnUpdate.valid || this.mageIdFromList != undefined) {
 
         this.mageToUpdate = MAGEEMPTY
         this.mageListRequest = this.mageAllnUpdate.value;
         let mageIdToUpdate: number = idMage;
-        const resultGetMage = await this.mageService.getMageById(mageIdToUpdate);
+        let resultGetMage = await this.mageService.getMageById(mageIdToUpdate);
         if (resultGetMage.ok) {
           this.mageToUpdate = resultGetMage.data;
 
@@ -199,10 +201,8 @@ export class UpdateMageComponent implements OnInit {
           });
           this.birthDateMage = new Date(this.mageToUpdate.mag_birthdate);
 
-
         } else {
-          const errorMessage = resultGetMage.data.error;
-          this.errorMsg = errorMessage;
+          this.errorMsg = resultGetMage.data.error;
         }
 
         this.myModal.show();
@@ -218,20 +218,14 @@ export class UpdateMageComponent implements OnInit {
    * @returns {string | number} - The name or ID of the house.
    */
   getHouseNameByIdOrIdByName(selectedHouIdOrName: number | string): string | number {
-    if (typeof selectedHouIdOrName === 'number') {
-      for (let index = 0; index < this.houseList.length; index++) {
 
-        if (this.houseList[index].hou_id == selectedHouIdOrName) {
-          return this.houseList[index].hou_name;
-        }
-      }
+    if (typeof selectedHouIdOrName === 'number') {
+      let index = this.houseList.findIndex(x => x.hou_id == selectedHouIdOrName)
+      return this.houseList[index].hou_name;
     }
     else {
-      for (let index = 0; index < this.houseList.length; index++) {
-        if (this.houseList[index].hou_name == selectedHouIdOrName) {
-          return this.houseList[index].hou_id;
-        }
-      }
+      let index = this.houseList.findIndex(x => x.hou_name == selectedHouIdOrName)
+      return this.houseList[index].hou_id;
     }
   }
 
@@ -243,20 +237,20 @@ export class UpdateMageComponent implements OnInit {
     try {
       this.mageUpdateForm.updateValueAndValidity();
       this.mageUpdateForm.markAllAsTouched();
-  
+
       if (this.mageUpdateForm.valid) {
         let mageUpdated: Mage = this.mageUpdateForm.value;
         let houseSelected = this.mageUpdateForm.get('mag_hou_name').value;
-  
+
         if (typeof houseSelected === 'string') {
           let mageIdToUpdate: string | number = this.getHouseNameByIdOrIdByName(houseSelected);
           if (typeof mageIdToUpdate === 'number') {
             mageUpdated.mag_hou_id = mageIdToUpdate;
           }
         }
-  
-        const localBirthdate = new Date(mageUpdated.mag_birthdate);
-        const utcBirthdate = new Date(
+
+        let localBirthdate = new Date(mageUpdated.mag_birthdate);
+        let utcBirthdate = new Date(
           localBirthdate.getUTCFullYear(),
           localBirthdate.getUTCMonth(),
           localBirthdate.getUTCDate(),
@@ -266,11 +260,11 @@ export class UpdateMageComponent implements OnInit {
           localBirthdate.getUTCMilliseconds()
         );
         mageUpdated.mag_birthdate = utcBirthdate.toISOString();
-  
-        const resultUpdateMage = await this.mageService.putMage(mageUpdated, this.mageToUpdate.mag_id);
+
+        let resultUpdateMage = await this.mageService.putMage(mageUpdated, this.mageToUpdate.mag_id);
+        
         if (resultUpdateMage.ok) {
           this.mageToUpdate = resultUpdateMage.data;
-  
           Swal.fire({
             title: "Update successful!",
             text: "The mage " + this.mageToUpdate.mag_name + " is updated!",
@@ -281,10 +275,9 @@ export class UpdateMageComponent implements OnInit {
               this.location.back();
             }
           });
-  
+
         } else {
-          const errorMessage = resultUpdateMage.errors[0].error;
-          this.errorMsg = errorMessage;
+          this.errorMsg = resultUpdateMage.errors[0].error;
           console.log("error: ", this.errorMsg);
         }
       }
@@ -292,13 +285,13 @@ export class UpdateMageComponent implements OnInit {
       console.error("Error:", error);
     }
   }
-  
+
   /**
    * Checks if a form field is valid.
    * @param {string} field - The name of the form field.
    * @returns {boolean} - True if the field is valid, false otherwise.
    */
-  isValidField(form: FormGroup,field: string): boolean {
+  isValidField(form: FormGroup, field: string): boolean {
     return this.validatorService.isValidField(form, field);
   }
 
@@ -316,13 +309,7 @@ export class UpdateMageComponent implements OnInit {
    * @param {string} birthControl - The name of the form field.
    * @returns {string} - The error message for the birthdate form field.
    */
-    isValidBirthdate(birthControl: string): string {
-      return this.validatorService.getFieldError(this.mageUpdateForm, birthControl);
-    }
-
-
-
-  goBack() {
-    this.location.back();
+  isValidBirthdate(birthControl: string): string {
+    return this.validatorService.getFieldError(this.mageUpdateForm, birthControl);
   }
 }

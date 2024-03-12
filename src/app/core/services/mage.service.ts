@@ -26,17 +26,16 @@ export class MageService {
   constructor(private http: HttpClient) { }
 
 
-  async getMageById(idMage:number): Promise<Result<any>> {
-    let newHeaders =({
-      'accept': 'text/plain',
-      'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('userToken')),
-      'Content-type': 'application/json',
-    });
-    const requestOptions = { headers: new HttpHeaders(newHeaders) };
-    const url = `${this.apiURL}/mages/${idMage}`;
-    console.log("url: ", url)
+  async getMageById(idMage: number): Promise<Result<any>> {
     try {
-      const response = await this.http.get(url, requestOptions).toPromise();
+      let newHeaders = ({
+        'accept': 'text/plain',
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('userToken')),
+        'Content-type': 'application/json',
+      });
+      const requestOptions = { headers: new HttpHeaders(newHeaders) };
+      let url = `${this.apiURL}/mages/${idMage}`;
+      let response = this.http.get(url, requestOptions);
       return { data: response, ok: true, errors: [] };
     } catch (error) {
       if (error.status === 401 && error.error) {
@@ -46,18 +45,16 @@ export class MageService {
     }
   }
 
-  async putMage(mageToUpdate : Mage, idMage : number): Promise<Result<any>> {
-    console.log(mageToUpdate)
-    let newHeaders =({
-      'accept': 'text/plain',
-      'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('userToken')),
-      'Content-type': 'application/json',
-    });
-    const requestOptions = { headers: new HttpHeaders(newHeaders) };
-    const url = `${this.apiURL}/mages/${idMage}`;
-
+  async putMage(mageToUpdate: Mage, idMage: number): Promise<Result<any>> {
     try {
-      const response = await this.http.put(url,mageToUpdate, requestOptions).toPromise();
+      let newHeaders = ({
+        'accept': 'text/plain',
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('userToken')),
+        'Content-type': 'application/json',
+      });
+      const requestOptions = { headers: new HttpHeaders(newHeaders) };
+      let url = `${this.apiURL}/mages/${idMage}`;
+      let response = await this.http.put(url, mageToUpdate, requestOptions);
       return { data: response, ok: true, errors: [] };
     } catch (error) {
       if (error.status === 401 && error.error) {
@@ -75,15 +72,15 @@ export class MageService {
    * @returns {Promise<Result<any>>} - A promise that resolves to a Result object indicating the success or failure of the registration.
    */
   async postNewMage(newMage: Mage): Promise<Result<any>> {
-    let newHeaders =({
+    try {
+    let newHeaders = ({
       'accept': 'text/plain',
       'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('userToken')),
       'Content-type': 'application/json',
     });
     const requestOptions = { headers: new HttpHeaders(newHeaders) };
-    const url = `${this.apiURL}/mages`;
-    try {
-      const response = await this.http.post(url, newMage, requestOptions).toPromise();
+    let url = `${this.apiURL}/mages`;
+      let response = this.http.post(url, newMage, requestOptions);
       return { data: response, ok: true, errors: [] };
     } catch (error) {
       if (error.status === 401 && error.error) {
@@ -98,15 +95,15 @@ export class MageService {
    * @param {mageListRequest} params - Parameters for filtering the mage list.
    * @returns {Promise<Result<any>>} - A promise that resolves to a Result object containing the mage list data.
    */
-  async getMagesList(params: mageListRequest): Promise<Result<any>>{
-    let newHeaders =({
+  async getMagesList(params: mageListRequest): Promise<Result<any>> {
+    try {
+    let newHeaders = ({
       'accept': 'text/plain',
       'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('userToken')),
       'Content-type': 'application/json',
     });
-    const requestOptions = {headers: new HttpHeaders(newHeaders)};
+    const requestOptions = { headers: new HttpHeaders(newHeaders) };
     let url = `${this.apiURL}/mages?`;
-
     if (params.mageName) url += `mageName=${params.mageName}&`;
     if (params.AALN) url += `AALN=${params.AALN}&`;
     if (params.minAge) url += `minAge=${params.minAge}&`;
@@ -117,8 +114,7 @@ export class MageService {
 
     url = url.slice(0, -1);
 
-    try {
-      const response = await this.http.get(url, requestOptions).toPromise();
+      let response = this.http.get(url, requestOptions);
       return { data: response, ok: true, errors: [] };
     } catch (error) {
       if (error.status === 401 && error.error) {
