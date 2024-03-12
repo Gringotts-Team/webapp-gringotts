@@ -158,7 +158,8 @@ export class UpdateMageComponent implements OnInit {
         let resultGetMage = await this.mageService.getMagesList(this.mageListRequest);
         if (resultGetMage.ok) {
           this.mageByAaln = resultGetMage.data[0];
-          if (resultGetMage.data.length == 0) {
+          console.log("sad",resultGetMage.data.length)
+          if (typeof this.mageByAaln == "undefined" || resultGetMage.data.length == 0) {
             this.errorMsg = 'There is no mage with this AALN';
             this.showError = true;
           }
@@ -237,6 +238,7 @@ export class UpdateMageComponent implements OnInit {
     try {
       this.mageUpdateForm.updateValueAndValidity();
       this.mageUpdateForm.markAllAsTouched();
+      this.mageUpdateForm.get('mag_aaln').updateValueAndValidity();
 
       if (this.mageUpdateForm.valid) {
         let mageUpdated: Mage = this.mageUpdateForm.value;
@@ -248,7 +250,6 @@ export class UpdateMageComponent implements OnInit {
             mageUpdated.mag_hou_id = mageIdToUpdate;
           }
         }
-
         let localBirthdate = new Date(mageUpdated.mag_birthdate);
         let utcBirthdate = new Date(
           localBirthdate.getUTCFullYear(),
@@ -301,6 +302,7 @@ export class UpdateMageComponent implements OnInit {
    * @returns {string} - The error message for the AALN form field.
    */
   isValidAALN(form: FormGroup, aalnControl: string): string {
+    this.showError = false;
     return this.validatorService.getFieldError(form, aalnControl);
   }
 

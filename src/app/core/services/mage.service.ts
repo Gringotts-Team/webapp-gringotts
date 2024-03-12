@@ -35,7 +35,7 @@ export class MageService {
       });
       const requestOptions = { headers: new HttpHeaders(newHeaders) };
       let url = `${this.apiURL}/mages/${idMage}`;
-      let response = this.http.get(url, requestOptions);
+      let response = await this.http.get(url, requestOptions).toPromise();;
       return { data: response, ok: true, errors: [] };
     } catch (error) {
       if (error.status === 401 && error.error) {
@@ -54,7 +54,7 @@ export class MageService {
       });
       const requestOptions = { headers: new HttpHeaders(newHeaders) };
       let url = `${this.apiURL}/mages/${idMage}`;
-      let response = await this.http.put(url, mageToUpdate, requestOptions);
+      let response = await this.http.put(url, mageToUpdate, requestOptions).toPromise();;
       return { data: response, ok: true, errors: [] };
     } catch (error) {
       if (error.status === 401 && error.error) {
@@ -80,7 +80,7 @@ export class MageService {
     });
     const requestOptions = { headers: new HttpHeaders(newHeaders) };
     let url = `${this.apiURL}/mages`;
-      let response = this.http.post(url, newMage, requestOptions);
+      let response = await this.http.post(url, newMage, requestOptions).toPromise();
       return { data: response, ok: true, errors: [] };
     } catch (error) {
       if (error.status === 401 && error.error) {
@@ -114,7 +114,7 @@ export class MageService {
 
     url = url.slice(0, -1);
 
-      let response = this.http.get(url, requestOptions);
+      let response = await this.http.get(url, requestOptions).toPromise();
       return { data: response, ok: true, errors: [] };
     } catch (error) {
       if (error.status === 401 && error.error) {
