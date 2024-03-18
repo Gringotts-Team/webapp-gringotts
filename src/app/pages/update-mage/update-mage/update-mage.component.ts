@@ -61,6 +61,11 @@ export class UpdateMageComponent implements OnInit {
    * @type {boolean}
    */
   showError: boolean = false;
+    /**
+   * Indicates whether to show the error in the modal.
+   * @type {boolean}
+   */
+    showErrorModal: boolean = false;
 
   /**
    * Constructor for MagesListComponent.
@@ -158,7 +163,6 @@ export class UpdateMageComponent implements OnInit {
         let resultGetMage = await this.mageService.getMagesList(this.mageListRequest);
         if (resultGetMage.ok) {
           this.mageByAaln = resultGetMage.data[0];
-          console.log("sad",resultGetMage.data.length)
           if (typeof this.mageByAaln == "undefined" || resultGetMage.data.length == 0) {
             this.errorMsg = 'There is no mage with this AALN';
             this.showError = true;
@@ -170,10 +174,7 @@ export class UpdateMageComponent implements OnInit {
         } else {
           this.errorMsg = resultGetMage.data.error;
         }
-
-
       }
-
     } catch (error) {
       console.error("Error:", error);
     }
@@ -185,6 +186,7 @@ export class UpdateMageComponent implements OnInit {
    */
   async findMageById(idMage: number): Promise<void> {
     try {
+      this.birthDateMage = null;
       if (this.mageAllnUpdate.valid || this.mageIdFromList != undefined) {
 
         this.mageToUpdate = MAGEEMPTY
@@ -201,7 +203,6 @@ export class UpdateMageComponent implements OnInit {
             mag_aaln: this.mageToUpdate.mag_aaln
           });
           this.birthDateMage = new Date(this.mageToUpdate.mag_birthdate);
-
         } else {
           this.errorMsg = resultGetMage.data.error;
         }
@@ -236,6 +237,7 @@ export class UpdateMageComponent implements OnInit {
    */
   async updateMage(): Promise<void> {
     try {
+      this.errorMsg = "";
       this.mageUpdateForm.updateValueAndValidity();
       this.mageUpdateForm.markAllAsTouched();
       this.mageUpdateForm.get('mag_aaln').updateValueAndValidity();
@@ -279,6 +281,8 @@ export class UpdateMageComponent implements OnInit {
 
         } else {
           this.errorMsg = resultUpdateMage.errors[0].error;
+          console.log(this.errorMsg);
+          this.showErrorModal = true;
           console.log("error: ", this.errorMsg);
         }
       }
@@ -314,4 +318,13 @@ export class UpdateMageComponent implements OnInit {
   isValidBirthdate(birthControl: string): string {
     return this.validatorService.getFieldError(this.mageUpdateForm, birthControl);
   }
+  
+  /**
+   * Close the modal and go to last windows
+   */
+  goBeforeWindow():void{
+    this.myModal.hide();
+    this.location.back();
+  }
+  
 }

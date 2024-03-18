@@ -4,7 +4,7 @@
             <div class="aaln-finder">
                 <div class="row">
                     <div class="col-md-12 col-sm-12 mb-3">
-                        <h2 class="bold-label">Update Mage</h2>
+                        <h2 class="bold-label">Modify Mage</h2>
                     </div>
                     <div class="row" id="rowMageAALNFinder">
                         <div class="col-md-8 col-sm-12 mb-3 mx-auto text-center">
@@ -79,8 +79,11 @@
                             </span>
                             <br>
                         </div>
+                        <span *ngIf="showErrorModal" class="form-text text-center text-danger">
+                            {{errorMsg}}
+                        </span>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-secondary" (click)="goBeforeWindow()" data-bs-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-primary">Guardar</button>
                         </div>
                     </div>
