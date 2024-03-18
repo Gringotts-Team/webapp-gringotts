@@ -14,11 +14,11 @@ import { Subscription } from 'rxjs';
 
 
 @Component({
-  selector: 'app-update-mage',
-  templateUrl: './update-mage.component.html',
-  styleUrls: ['./update-mage.component.css']
+  selector: 'app-modify-mage',
+  templateUrl: './modify-mage.component.html',
+  styleUrls: ['./modify-mage.component.css']
 })
-export class UpdateMageComponent implements OnInit {
+export class ModifyMageComponent implements OnInit {
 
 
 

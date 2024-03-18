@@ -77,7 +77,7 @@ export class MagesListComponent implements OnInit {
         button.addEventListener('click', () => {
           const id = params.value;
           this.ngZone.run( () => {
-            this.router.navigateByUrl(`mages/update-mage/${id}`);
+            this.router.navigateByUrl(`mages/modify-mage/${id}`);
           });
         });
         return button;        

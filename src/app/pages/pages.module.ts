@@ -7,7 +7,7 @@ import { HttpClientModule} from '@angular/common/http';
 import { NewMageComponent } from './new-mage/new-mage.component';
 import { MagesListComponent } from './mages-list/mages-list.component'
 import { AgGridModule } from 'ag-grid-angular';
-import { UpdateMageComponent } from './update-mage/update-mage/update-mage.component';
+import { ModifyMageComponent } from './modify-mage/modify-mage.component';
 
 
 /**
@@ -19,7 +19,7 @@ import { UpdateMageComponent } from './update-mage/update-mage/update-mage.compo
     HomeComponent,
     NewMageComponent,
     MagesListComponent,
-    UpdateMageComponent
+    ModifyMageComponent
   ],
   imports: [
     CommonModule,
